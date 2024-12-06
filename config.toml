@@ -25,10 +25,6 @@ address = "http://localhost:4444"
 hostname = "localhost"
 port = 4444
 
-# Username and password
-username = "streamwall"
-password = "local-dev"
-
 [data]
 # Interval to refresh polled datasources
 interval = 30

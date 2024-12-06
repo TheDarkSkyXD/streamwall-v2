@@ -16,9 +16,9 @@
 
 ### Button Controls
 - [x] Remove stream button with trash can icon
-- [ ] Basic/Advanced mode toggle buttons:
-    - [ ] Basic button: Auto-arrange streams to fill grid efficiently
-    - [ ] Advanced button: Show stream list with Live/Offline/Custom categories
+- [x] Basic/Advanced mode toggle buttons:
+    - [x] Basic button: Auto-arrange streams to fill grid efficiently
+    - [x] Advanced button: Show stream list with Live/Offline/Custom categories
 - [ ] Button tooltips and keyboard shortcuts
 
 ### Stream Management

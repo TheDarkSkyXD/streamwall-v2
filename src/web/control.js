@@ -29,6 +29,8 @@ import SwapIcon from '../static/exchange-alt-solid.svg'
 import LifeRingIcon from '../static/life-ring-regular.svg'
 import WindowIcon from '../static/window-maximize-regular.svg'
 import TrashIcon from '../static/trash-alt-solid.svg'
+import GridIcon from '../static/grid-solid.svg'
+import SlidersIcon from '../static/sliders-h-solid.svg'
 import { idColor } from './colors'
 
 const hotkeyTriggers = [
@@ -249,6 +251,29 @@ function useStreamwallConnection(wsEndpoint) {
     delayState,
     authState,
   }
+}
+
+function calculateBasicLayout(streamCount) {
+  if (streamCount <= 0) return [];
+  
+  // Define standard layouts for different stream counts
+  const layouts = {
+    1: [[0, 0, 4, 4]], // Full width/height
+    2: [[0, 0, 2, 4], [2, 0, 2, 4]], // 1x2 grid
+    3: [[0, 0, 2, 2], [2, 0, 2, 2], [0, 2, 4, 2]], // 2+1 arrangement
+    4: [[0, 0, 2, 2], [2, 0, 2, 2], [0, 2, 2, 2], [2, 2, 2, 2]], // 2x2 grid
+    5: [[0, 0, 2, 2], [2, 0, 2, 2], [0, 2, 2, 2], [2, 2, 2, 2], [0, 4, 4, 1]], // 2x2 + 1
+    6: [[0, 0, 2, 2], [2, 0, 2, 2], [4, 0, 2, 2], [0, 2, 2, 2], [2, 2, 2, 2], [4, 2, 2, 2]], // 3x2
+    7: [[0, 0, 2, 2], [2, 0, 2, 2], [4, 0, 2, 2], [0, 2, 2, 2], [2, 2, 2, 2], [4, 2, 2, 2], [0, 4, 4, 1]], // 3x2 + 1
+    8: [[0, 0, 2, 2], [2, 0, 2, 2], [4, 0, 2, 2], [6, 0, 2, 2], [0, 2, 2, 2], [2, 2, 2, 2], [4, 2, 2, 2], [6, 2, 2, 2]], // 4x2
+    9: [[0, 0, 2, 2], [2, 0, 2, 2], [4, 0, 2, 2], [0, 2, 2, 2], [2, 2, 2, 2], [4, 2, 2, 2], [0, 4, 2, 2], [2, 4, 2, 2], [4, 4, 2, 2]], // 3x3
+    10: [[0, 0, 2, 2], [2, 0, 2, 2], [4, 0, 2, 2], [0, 2, 2, 2], [2, 2, 2, 2], [4, 2, 2, 2], [0, 4, 2, 2], [2, 4, 2, 2], [4, 4, 2, 2], [0, 6, 4, 1]], // 3x3 + 1
+    11: [[0, 0, 2, 2], [2, 0, 2, 2], [4, 0, 2, 2], [0, 2, 2, 2], [2, 2, 2, 2], [4, 2, 2, 2], [0, 4, 2, 2], [2, 4, 2, 2], [4, 4, 2, 2], [0, 6, 2, 1], [2, 6, 2, 1]], // 3x3 + 2
+    12: [[0, 0, 2, 2], [2, 0, 2, 2], [4, 0, 2, 2], [6, 0, 2, 2], [0, 2, 2, 2], [2, 2, 2, 2], [4, 2, 2, 2], [6, 2, 2, 2], [0, 4, 2, 2], [2, 4, 2, 2], [4, 4, 2, 2], [6, 4, 2, 2]], // 4x3
+  };
+
+  // Return the predefined layout or default to a basic grid for larger numbers
+  return layouts[streamCount] || [];
 }
 
 function App({ wsEndpoint, role }) {
@@ -586,6 +611,97 @@ function App({ wsEndpoint, role }) {
     ))
   }
 
+  const [mode, setMode] = useState('basic')
+
+  const StyledModeToggle = styled.div`
+    display: flex;
+    gap: 8px;
+    margin: 8px 0;
+  `
+
+  const StyledModeButton = styled.button`
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    background: ${({ isActive }) => (isActive ? '#4a4a4a' : '#2a2a2a')};
+    color: ${({ isActive }) => (isActive ? '#fff' : '#aaa')};
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+      background: ${({ isActive }) => (isActive ? '#5a5a5a' : '#3a3a3a')};
+    }
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  `
+
+  const handleModeChange = useCallback(
+    (newMode) => {
+      setMode(newMode);
+      if (newMode === 'basic') {
+        // Apply automatic layout
+        const activeStreams = Object.entries(streams)
+          .filter(([_, stream]) => stream.status === 'Live' || stream.kind === 'web')
+          .map(([id]) => id);
+        
+        const layout = calculateBasicLayout(activeStreams.length);
+        
+        stateDoc.transact(() => {
+          const viewsState = stateDoc.getMap('views');
+          // Clear all existing stream assignments
+          for (let i = 0; i < gridCount; i++) {
+            const view = viewsState.get(String(i));
+            if (view) {
+              view.set('streamId', '');
+            }
+          }
+          
+          // Apply new layout
+          layout.forEach(([x, y, w, h], index) => {
+            if (index < activeStreams.length) {
+              const streamId = activeStreams[index];
+              const gridIndex = y * 4 + x;
+              const view = viewsState.get(String(gridIndex));
+              if (view) {
+                view.set('streamId', streamId);
+                view.set('width', w);
+                view.set('height', h);
+              }
+            }
+          });
+        });
+      }
+    },
+    [stateDoc, streams, gridCount],
+  );
+
+  function ModeToggle({ mode, onModeChange }) {
+    return (
+      <StyledModeToggle>
+        <StyledModeButton
+          isActive={mode === 'basic'}
+          onClick={() => onModeChange('basic')}
+          title="Basic Mode - Auto-arrange streams to fill grid efficiently"
+        >
+          <GridIcon /> Basic
+        </StyledModeButton>
+        <StyledModeButton
+          isActive={mode === 'advanced'}
+          onClick={() => onModeChange('advanced')}
+          title="Advanced Mode - Manual stream positioning and sizing"
+        >
+          <SlidersIcon /> Advanced
+        </StyledModeButton>
+      </StyledModeToggle>
+    )
+  }
+
   return (
     <Stack flex="1">
       <Stack>
@@ -604,6 +720,7 @@ function App({ wsEndpoint, role }) {
             setStreamRunning={setStreamRunning}
           />
         )}
+        <ModeToggle mode={mode} onModeChange={handleModeChange} />
         <StyledDataContainer isConnected={isConnected}>
           {gridCount && (
             <StyledGridContainer

@@ -6,7 +6,6 @@ import * as Y from 'yjs'
 import simpleCert from 'node-simple-cert'
 
 import Koa from 'koa'
-import basicAuth from 'koa-basic-auth'
 import route from 'koa-route'
 import serveStatic from 'koa-static'
 import views from 'koa-views'
@@ -72,24 +71,10 @@ function initApp({
     }),
   )
 
-  const basicAuthMiddleware = basicAuth({
-    name: auth.adminUsername,
-    pass: auth.adminPassword,
-  })
   app.use(async (ctx, next) => {
-    const sessionCookie = ctx.cookies.get(SESSION_COOKIE_NAME)
-    if (sessionCookie) {
-      const tokenInfo = await auth.validateToken(sessionCookie)
-      if (tokenInfo && tokenInfo.kind === 'session') {
-        ctx.state.identity = tokenInfo
-        await next()
-        return
-      }
-    }
-    await basicAuthMiddleware(ctx, async () => {
-      ctx.state.identity = auth.admin()
-      await next()
-    })
+    // Set default admin identity without authentication
+    ctx.state.identity = auth.admin()
+    await next()
   })
 
   app.use(

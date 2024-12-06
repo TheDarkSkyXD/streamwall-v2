@@ -242,8 +242,8 @@ async function main(argv) {
   streamWindow.init()
 
   const auth = new Auth({
-    adminUsername: argv.control.username,
-    adminPassword: argv.control.password,
+    adminUsername: 'admin',
+    adminPassword: 'admin',
     persistData: persistData.auth,
     logEnabled: true,
   })

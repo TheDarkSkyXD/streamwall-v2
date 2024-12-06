@@ -21,8 +21,10 @@ export default class StreamWindow extends EventEmitter {
     super()
 
     const { width, height, gridCount } = config
-    config.spaceWidth = Math.floor(width / gridCount)
-    config.spaceHeight = Math.floor(height / gridCount)
+    // Ensure gridCount doesn't exceed maximum allowed spaces
+    const validatedGridCount = Math.min(gridCount, 4)
+    config.spaceWidth = Math.floor(width / validatedGridCount)
+    config.spaceHeight = Math.floor(height / validatedGridCount)
     this.config = config
 
     this.win = null

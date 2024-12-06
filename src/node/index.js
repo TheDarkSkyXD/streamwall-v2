@@ -38,7 +38,9 @@ function parseArgs() {
     .group(['grid.count'], 'Grid dimensions')
     .option('grid.count', {
       number: true,
-      default: 3,
+      default: 4,
+      describe: 'Number of grid spaces per row/column (max 4 for 16 total spaces)',
+      choices: [1, 2, 3, 4]
     })
     .group(
       [

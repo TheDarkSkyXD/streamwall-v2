@@ -28,6 +28,7 @@ import RotateIcon from '../static/redo-alt-solid.svg'
 import SwapIcon from '../static/exchange-alt-solid.svg'
 import LifeRingIcon from '../static/life-ring-regular.svg'
 import WindowIcon from '../static/window-maximize-regular.svg'
+import TrashIcon from '../static/trash-alt-solid.svg'
 import { idColor } from './colors'
 
 const hotkeyTriggers = [
@@ -516,7 +517,7 @@ function App({ wsEndpoint, role }) {
 
   const preventLinkClick = useCallback((ev) => {
     ev.preventDefault()
-  })
+ })
 
   // Set up keyboard shortcuts.
   useHotkeys(
@@ -561,6 +562,16 @@ function App({ wsEndpoint, role }) {
       handleSwapView(focusedInputIdx)
     },
     [handleSwapView, focusedInputIdx],
+  )
+
+  const handleRemoveStream = useCallback(
+    (idx) => {
+      stateDoc.transact(() => {
+        const viewsState = stateDoc.getMap('views')
+        viewsState.get(String(idx)).set('streamId', '')
+      })
+    },
+    [stateDoc],
   )
 
   const [liveStreams, otherStreams] = filterStreams(streams)
@@ -688,6 +699,7 @@ function App({ wsEndpoint, role }) {
                       onBrowse={handleBrowse}
                       onDevTools={handleDevTools}
                       onMouseDown={handleDragStart}
+                      onRemoveStream={handleRemoveStream}
                     />
                   )
                 },
@@ -1018,6 +1030,7 @@ function GridControls({
   onBrowse,
   onDevTools,
   onMouseDown,
+  onRemoveStream,
 }) {
   // TODO: Refactor callbacks to use streamID instead of idx.
   // We should probably also switch the view-state-changing RPCs to use a view id instead of idx like they do currently.
@@ -1055,6 +1068,10 @@ function GridControls({
     () => onDevTools(idx),
     [idx, onDevTools],
   )
+  const handleRemoveClick = useCallback(
+    () => onRemoveStream(idx),
+    [idx, onRemoveStream],
+  )
   return (
     <StyledGridControlsContainer style={style} onMouseDown={onMouseDown}>
       <StyledGridButtons side="left">
@@ -1071,6 +1088,11 @@ function GridControls({
         {roleCan(role, 'rotate-stream') && (
           <StyledSmallButton onClick={handleRotateClick} tabIndex={1} title="Rotate stream">
             <RotateIcon />
+          </StyledSmallButton>
+        )}
+        {roleCan(role, 'mutate-state-doc') && (
+          <StyledSmallButton onClick={handleRemoveClick} tabIndex={1} title="Remove stream">
+            <TrashIcon />
           </StyledSmallButton>
         )}
       </StyledGridButtons>

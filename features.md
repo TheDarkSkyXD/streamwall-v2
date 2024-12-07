@@ -19,7 +19,11 @@
 - [x] Basic/Advanced mode toggle buttons:
     - [x] Basic button: Auto-arrange streams to fill grid efficiently
     - [x] Advanced button: Show stream list with Live/Offline/Custom categories
-- [ ] Button tooltips and keyboard shortcuts
+- [x] Button tooltips:
+    - [x] Grid control tooltips (open window, devtools, rotate, remove)
+    - [x] Stream control tooltips (listening, blur, reload, swap)
+    - [x] Stream management tooltips (add, delete, start/stop)
+    - [x] Team management tooltips (invite, revoke)
 
 ### Stream Management
 - [ ] Visual drag indicators and drop zone highlights

@@ -975,12 +975,13 @@ function StreamDelayBox({
                 isActive={delayState.isCensored}
                 onClick={handleToggleStreamCensored}
                 tabIndex={1}
+                title="Toggle stream censorship"
               >
                 {buttonText}
               </StyledButton>
             )}
             {roleCan(role, 'set-stream-running') && (
-              <StyledButton onClick={handleToggleStreamRunning} tabIndex={1}>
+              <StyledButton onClick={handleToggleStreamRunning} tabIndex={1} title="Toggle stream running">
                 {delayState.isStreamRunning ? 'End stream' : 'Start stream'}
               </StyledButton>
             )}
@@ -1307,7 +1308,7 @@ function CustomStreamInput({ onChange, onDelete, ...props }) {
         placeholder="Country (optional)"
       />{' '}
       <a href={props.link}>{props.link}</a> <span>({props.kind})</span>{' '}
-      <button onClick={handleDeleteClick}>x</button>
+      <button onClick={handleDeleteClick} title="Delete stream">x</button>
     </div>
   )
 }
@@ -1366,7 +1367,7 @@ function CreateCustomStreamInput({ onCreate }) {
         onChange={(ev) => setCountry(ev.target.value)}
         placeholder="Country (optional)"
       />
-      <button type="submit">add stream</button>
+      <button type="submit" title="Add new stream">add stream</button>
     </form>
   )
 }
@@ -1599,7 +1600,7 @@ function CreateInviteInput({ onCreateInvite }) {
           <option value="operator">Operator</option>
           <option value="monitor">Feed Monitor</option>
         </select>
-        <button type="submit">Invite Team Member</button>
+        <button type="submit" title="Create new invite for team member">Invite Team Member</button>
       </form>
     </div>
   )
@@ -1618,7 +1619,7 @@ function AuthTokenLine({ id, role, name, onDelete }) {
   return (
     <div>
       <strong>{name}</strong>: {role}{' '}
-      <button onClick={handleDeleteClick}>revoke</button>
+      <button onClick={handleDeleteClick} title="Revoke team member access">revoke</button>
     </div>
   )
 }

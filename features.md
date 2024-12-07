@@ -86,7 +86,7 @@ Automatic stream arrangement based on count:
 - [ ] Stream error handling and recovery
 - [ ] Stream loading indicators
 - [ ] Stream buffering feedback
-- [ ] Stream connection status
+- [ ] Better Stream connection status indicators
 
 ### Stream Features
 - [ ] Multi-stream audio control
@@ -96,9 +96,6 @@ Automatic stream arrangement based on count:
 - [ ] Stream source switching
 - [ ] Stream quality adaptation
 - [ ] Stream synchronization options
-- [ ] Stream chat integration (if applicable)
-- [ ] Stream statistics display
-- [ ] Stream recording capabilities
 
 ## Phase 4: Integration and Testing
 

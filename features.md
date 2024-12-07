@@ -87,7 +87,6 @@ Automatic stream arrangement based on count:
 - [ ] Stream loading indicators
 - [ ] Stream buffering feedback
 - [ ] Stream connection status
-- [ ] Keyboard shortcuts for stream control
 
 ### Stream Features
 - [ ] Multi-stream audio control

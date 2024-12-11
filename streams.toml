@@ -1,0 +1,13 @@
+[[streams]]
+city   = "Fox 11"
+label   = "Fox 11"
+link  = "https://www.foxla.com/live"
+kind  = "video"
+
+[[streams]]
+city   = "ABC 7"
+label   = "ABC 7"
+link  = "https://abc7.com/watch/live/"
+kind  = "video"
+
+

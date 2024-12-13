@@ -122,6 +122,7 @@ Automatic stream arrangement based on count:
 - [ ] DOM element recycling
 - [ ] Event listener optimization
 - [ ] Animation performance tuning
+- [ ] Remove all keyboard shortcuts
 
 ### Browser Support
 - [ ] Chrome compatibility

@@ -3,8 +3,6 @@
 ## Phase 1: Advanced Tab - Drag and Drop Implementation
 
 ### Grid System Enhancement
-- [x] Resizable grid system supporting up to 16 spaces
-- [ ] Drag handles for resizing grid cells
 - [ ] Drag and drop functionality for stream repositioning
 - [ ] Collision detection to prevent overlapping
 - [ ] Responsive grid that adapts to screen size

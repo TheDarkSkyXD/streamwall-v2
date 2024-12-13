@@ -108,7 +108,7 @@ const webConfig = {
   devtool: 'cheap-source-map',
   target: 'web',
   entry: {
-    control: './src/web/control.js',
+    app: './src/web/App.js',
   },
   output: {
     path: path.resolve(__dirname, 'dist/web'),

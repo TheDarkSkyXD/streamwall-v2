@@ -6,7 +6,7 @@ import { useHotkeys } from 'react-hotkeys-hook'
 import { TailSpin } from 'svg-loaders-react'
 import Color from 'color'
 
-import '../index.css'
+import '../web/index.css'
 
 import InstagramIcon from '../static/instagram.svg'
 import FacebookIcon from '../static/facebook.svg'

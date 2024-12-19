@@ -121,6 +121,8 @@ Automatic stream arrangement based on count:
 - [ ] Event listener optimization
 - [ ] Animation performance tuning
 - [ ] Remove all keyboard shortcuts
+- [ ] Make the Basic and Advanced tabs more smoothly wehn switching to them
+- [ ] Split the app.js file into muliple files so it just has the imports it needs since thats the main file and it shouldntbe so big
 
 ### Browser Support
 - [ ] Chrome compatibility

@@ -67,6 +67,9 @@ const nodeConfig = {
     consolidate: 'commonjs consolidate',
     fsevents: 'commonjs fsevents',
   },
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+  }
 }
 
 const browserConfig = {
@@ -89,6 +92,25 @@ const browserConfig = {
       patterns: [{ from: 'src/browser/*.html', to: '[name].html' }],
     }),
   ],
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+  }
+}
+
+const devServer = {
+  static: {
+    directory: path.join(__dirname, 'dist'),
+  },
+  port: 3001,
+  hot: true,
+  compress: true,
+  devMiddleware: {
+    writeToDisk: true
+  },
+  open: false,
+  client: {
+    webSocketURL: 'auto://0.0.0.0:0/ws'
+  }
 }
 
 const webConfig = {
@@ -110,8 +132,10 @@ const webConfig = {
   entry: {
     app: './src/web/App.js',
   },
+  devServer,
   output: {
-    path: path.resolve(__dirname, 'dist/web'),
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
   },
   plugins: [
     new CopyPlugin({

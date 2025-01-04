@@ -8,7 +8,7 @@ import simpleCert from 'node-simple-cert'
 import Koa from 'koa'
 import route from 'koa-route'
 import serveStatic from 'koa-static'
-import views from 'koa-views'
+import views from '@ladjs/koa-views'
 import websocket from 'koa-easy-ws'
 
 import { create as createJSONDiffPatch } from 'jsondiffpatch'

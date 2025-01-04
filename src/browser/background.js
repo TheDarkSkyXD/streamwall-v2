@@ -2,7 +2,7 @@ import { h, render } from 'preact'
 import { useEffect, useState } from 'preact/hooks'
 import styled from 'styled-components'
 
-import '../web/index.css'
+import '../index.css'
 
 function Background({ streams }) {
   const backgrounds = streams.filter((s) => s.kind === 'background')

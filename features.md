@@ -3,6 +3,8 @@
 ## Phase 1: Advanced Tab - Drag and Drop Implementation
 
 ### Grid System Enhancement
+- [x] Resizable grid system supporting up to 16 spaces
+- [ ] Drag handles for resizing grid cells
 - [ ] Drag and drop functionality for stream repositioning
 - [ ] Collision detection to prevent overlapping
 - [ ] Responsive grid that adapts to screen size
@@ -120,9 +122,6 @@ Automatic stream arrangement based on count:
 - [ ] DOM element recycling
 - [ ] Event listener optimization
 - [ ] Animation performance tuning
-- [ ] Remove all keyboard shortcuts
-- [ ] Make the Basic and Advanced tabs more smoothly wehn switching to them
-- [ ] Split the app.js file into muliple files so it just has the imports it needs since thats the main file and it shouldntbe so big
 
 ### Browser Support
 - [ ] Chrome compatibility
